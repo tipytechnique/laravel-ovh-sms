@@ -1,0 +1,19 @@
+{
+    "name": "tipytechnique/laravel-ovh-sms",
+    "description": "Use the OVH SMS API in your Laravel 5.8 application.",
+    "license": "MIT",
+    "keywords": ["laravel", "laravel5.8", "ovh", "sms", "api"],
+    "authors": [
+        {
+            "name": "Technique",
+            "email": "technique@tipy.tv"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.1.0",
+        "illuminate/support": "^5.8",
+        "ovh/php-ovh-sms": "dev-master"
+    }
+}
