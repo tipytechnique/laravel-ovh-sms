@@ -1,5 +1,5 @@
 {
-    "name": "tipytechnique/laravel-ovh-sms",
+    "name": "tipytechnique/laravel-ovh-smstest",
     "description": "Use the OVH SMS API in your Laravel 5.8 application.",
     "license": "MIT",
     "keywords": ["laravel", "laravel5.8", "ovh", "sms", "api"],

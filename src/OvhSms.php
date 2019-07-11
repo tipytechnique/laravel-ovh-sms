@@ -252,14 +252,31 @@ class OvhSms implements Sms
      * Get all messages from a given type ('outgoing', 'incoming', 'planned')
      *
      * @param string $type
+     * @param array  $args ['dateStart' => DateTime|null, 'dateEnd' => DateTim|nulle, 'sender' => string|null, 'receiver' => string|null, 'tag' => string|null]
      *
      * @return array
      */
-    public function getMessages(string $type): array
+    public function getMessages(string $type, array $args = []): array
     {
+        $default = [
+            'dateStart' => null,
+            'dateEnd' => null,
+            'sender' => null,
+            'receiver' => null,
+            'tag' => null
+        ];
+
+        $default = count($args) > 0 ? array_replace_recursive($default, $args) : $default;
+
         switch ($type) {
             case 'outgoing':
-                $messages = $this->client->getOutgoingMessages();
+                $messages = $this->client->getOutgoingMessages(
+                    $default['dateStart'],
+                    $default['dateEnd'],
+                    $default['sender'],
+                    $default['receiver'],
+                    $default['tag']
+                );
                 foreach ($messages as $message) {
                     $message->load();
                 }
@@ -267,7 +284,13 @@ class OvhSms implements Sms
                 return $messages;
                 break;
             case 'incoming':
-                $messages = $this->client->getIncomingMessages();
+                $messages = $this->client->getIncomingMessages(
+                    $default['dateStart'],
+                    $default['dateEnd'],
+                    $default['sender'],
+                    $default['receiver'],
+                    $default['tag']
+                );
                 foreach ($messages as $message) {
                     $message->load();
                 }
