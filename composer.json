@@ -15,5 +15,20 @@
         "php": ">=7.1.0",
         "illuminate/support": "^5.8",
         "ovh/php-ovh-sms": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "TipyTechnique\\LaravelOvhSms\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TipyTechnique\\LaravelOvhSms\\SmsServiceProvider"
+            ],
+            "aliases": {
+                "Sms": "TipyTechnique\\LaravelOvhSms\\Facades\\Sms"
+            }
+        }
     }
 }
