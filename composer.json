@@ -16,9 +16,18 @@
         "illuminate/support": "^5.8",
         "ovh/php-ovh-sms": "dev-master"
     },
+    "require-dev": {
+        "orchestra/testbench": "^3.8",
+        "symfony/var-dumper": "^4.3"
+      },
     "autoload": {
         "psr-4": {
             "TipyTechnique\\LaravelOvhSms\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "TipyTechnique\\LaravelOvhSms\\Tests\\": "tests/"
         }
     },
     "extra": {
@@ -30,5 +39,8 @@
                 "Sms": "TipyTechnique\\LaravelOvhSms\\Facades\\Sms"
             }
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }

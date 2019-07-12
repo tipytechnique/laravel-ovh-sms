@@ -64,11 +64,12 @@ class OvhSms implements Sms
     /**
      * Constructor
      *
-     * @param array $credentials
+     * @param SmsApi $smsApi
+     * @param array  $config
      */
-    public function __construct(array $credentials = [])
+    public function __construct(SmsApi $smsApi, array $config)
     {
-        $credentials = collect($credentials);
+        $credentials = collect($config);
 
         if (! $credentials->isEmpty()) {
             $this->credentials = $credentials
@@ -85,6 +86,7 @@ class OvhSms implements Sms
             $this->loadCredentialsFromConfig();
         }
 
+        $this->client = $smsApi;
         // load properties
         $this->loadDefaultAccount()
              ->loadUserLogin()
@@ -152,17 +154,12 @@ class OvhSms implements Sms
     /**
      * Create the SmsApi client.
      *
+     * @param SmsApi $smsApi
+     *
      * @return self
      */
     public function createClient(): self
     {
-        $this->client = new SmsApi(
-            $this->credentials['app_key'],
-            $this->credentials['app_secret'],
-            $this->credentials['endpoint'],
-            $this->credentials['consumer_key']
-        );
-
         // A default account is configured
         if (! is_null($this->defaultAccount)) {
             // Get all accounts from API
@@ -179,7 +176,7 @@ class OvhSms implements Sms
         }
 
         // A user is configured
-        if (! is_null($this->user_login)) {
+        if (! is_null($this->userLogin)) {
             $this->client->setUser($this->userLogin);
         }
 
@@ -210,6 +207,16 @@ class OvhSms implements Sms
     }
 
     /**
+     * Get the credentials
+     *
+     * @return array
+     */
+    public function getCredentials(): array
+    {
+        return $this->credentials;
+    }
+
+    /**
      * Helper to create a new Message instance easely
      *
      * @param string|array $to
@@ -226,7 +233,6 @@ class OvhSms implements Sms
 
         // Convert receiver to an array of receivers.
         $to = ! is_array($to) ? [$to] : $to;
-
         foreach ($to as $receiver) {
             $message->addReceiver($receiver);
         }
@@ -309,5 +315,77 @@ class OvhSms implements Sms
                 throw new Exception('Provided type '.$type.' not exists.');
                 break;
         }
+    }
+
+    /**
+     * Get default account
+     *
+     * @return string|null
+     */
+    public function getDefaultAccount()
+    {
+        return $this->defaultAccount;
+    }
+
+    /**
+     * Set default account
+     *
+     * @param string|null $defaultAccount Default account
+     *
+     * @return self
+     */
+    public function setDefaultAccount($defaultAccount)
+    {
+        $this->defaultAccount = $defaultAccount;
+
+        return $this;
+    }
+
+    /**
+     * Get user login
+     *
+     * @return string|null
+     */
+    public function getUserLogin()
+    {
+        return $this->userLogin;
+    }
+
+    /**
+     * Set user login
+     *
+     * @param string|null $userLogin User login
+     *
+     * @return self
+     */
+    public function setUserLogin($userLogin)
+    {
+        $this->userLogin = $userLogin;
+
+        return $this;
+    }
+
+    /**
+     * Get default sender
+     *
+     * @return string|null
+     */
+    public function getDefaultSender()
+    {
+        return $this->defaultSender;
+    }
+
+    /**
+     * Set default sender
+     *
+     * @param string|null $defaultSender Default sender
+     *
+     * @return self
+     */
+    public function setDefaultSender($defaultSender)
+    {
+        $this->defaultSender = $defaultSender;
+
+        return $this;
     }
 }
