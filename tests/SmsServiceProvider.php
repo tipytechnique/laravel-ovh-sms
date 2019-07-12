@@ -1,11 +1,13 @@
 <?php
 
-namespace TipyTechnique\LaravelOvhSms;
+namespace TipyTechnique\LaravelOvhSms\Tests;
 
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use Mockery;
 use Ovh\Sms\SmsApi;
 use TipyTechnique\LaravelOvhSms\Contracts\Sms;
+use TipyTechnique\LaravelOvhSms\OvhSms;
 
 class SmsServiceProvider extends ServiceProvider implements DeferrableProvider
 {
@@ -22,31 +24,20 @@ class SmsServiceProvider extends ServiceProvider implements DeferrableProvider
 
         $config = $this->app['config']->get('laravel-ovh-sms');
 
-        // resolve SmsApi as a singleton
-        $this->app->singleton(SmsApi::class, function ($app) use ($config) {
-            $credentials = collect($config);
-            $credentials = $credentials
-                ->only(
-                    [
-                        'app_key',
-                        'app_secret',
-                        'consumer_key',
-                        'endpoint'
-                    ]
-                )
-                ->toArray();
-
-            return new SmsApi(
-                $credentials['app_key'],
-                $credentials['app_secret'],
-                $credentials['endpoint'],
-                $credentials['consumer_key']
-            );
-        });
-
         // resolve OvhSms as a singleton
         $this->app->singleton(Sms::class, function ($app) use ($config) {
-            return new OvhSms($app->make(SmsApi::class), $config);
+            // mock Sms Api
+            $smsApi = Mockery::mock(SmsApi::class);
+            $smsApi->shouldReceive('getAccounts')
+                ->andReturn(['dummy_sms_account']);
+            $smsApi->shouldReceive('setAccount')
+                ->andReturn(true);
+            $smsApi->shouldReceive('setUser')
+                ->andReturn(true);
+            $smsApi->shouldReceive('getSenders')
+                ->andReturn(['dummy_sms_default_sender']);
+
+            return new OvhSms($smsApi, $config);
         });
     }
 

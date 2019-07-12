@@ -12,7 +12,8 @@ $finder = Finder::create()
     ])
     ->in([
         'config',
-        'src'
+        'src',
+        'tests'
     ]);
 
 return Config::create()
