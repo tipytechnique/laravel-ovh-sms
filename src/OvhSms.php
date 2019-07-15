@@ -279,21 +279,13 @@ class OvhSms implements Sms
         if ($default['dateStart'] != null) {
             if (! $default['dateStart'] instanceof DateTime) {
                 $dateStart = new DateTime($default['dateStart']);
-                if (! $dateStart) {
-                    throw new Exception('Your filter "dateStart" is bad formatted.');
-                } else {
-                    $default['dateStart'] = $dateStart;
-                }
+                $default['dateStart'] = $dateStart;
             }
         }
         if ($default['dateEnd'] != null) {
             if (! $default['dateEnd'] instanceof DateTime) {
                 $dateEnd = new DateTime($default['dateEnd']);
-                if (! $dateEnd) {
-                    throw new Exception('Your filter "dateEnd" is bad formatted.');
-                } else {
-                    $default['dateEnd'] = $dateEnd;
-                }
+                $default['dateEnd'] = $dateEnd;
             }
         }
 
