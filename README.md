@@ -22,6 +22,15 @@ OVHSMS_SENDER = "your-sms-sender"
 ```
 To create your credentials, you can visit `https://api.ovh.com/createToken/index.cgi?GET=/sms&GET=/sms/*&PUT=/sms/*&DELETE=/sms/*&POST=/sms/*`
 
+Optionally, you can publish this package's configuration file on your `config` folder by running 
+```bash 
+php artisan vendor:publish --provider="TipyTechnique\LaravelOvhSms\SmsServiceProvider"
+```
+If you are using the `Themosis` framework, run 
+```bash 
+php console vendor:publish --provider="TipyTechnique\LaravelOvhSms\SmsServiceProvider"
+```
+
 ### Examples
 #### Dependency injection vs Facade
 You can either use the depency injection or the Facade to manage your sms.
