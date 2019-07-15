@@ -104,8 +104,8 @@ $messages = Sms::getMessages('planned');
 $messages = Sms::getMessages(
     'ongoing', 
     [
-        'dateStart' => '2019-07-01 12:00:00',
-        'dateEnd' => '2019-08-01',
+        'dateStart' => '2019-07-01 12:00:00',    // using date as a string
+        'dateEnd' => new DateTime('2019-08-01'), // using DateTime object
         'sender' => 'your-sender',
         'receiver' => 'a-receiver',
         'tag'  => 'a-tag'   
