@@ -2,9 +2,10 @@
 
 namespace TipyTechnique\LaravelOvhSms;
 
+use DateTime;
 use Exception;
-use Ovh\Sms\Message;
 use Ovh\Sms\SmsApi;
+use Ovh\Sms\Message;
 use TipyTechnique\LaravelOvhSms\Contracts\Sms;
 
 /**
@@ -273,6 +274,28 @@ class OvhSms implements Sms
         ];
 
         $default = count($args) > 0 ? array_replace_recursive($default, $args) : $default;
+
+        // manage filters dateStart and dateEnd to format them if needed
+        if ($default['dateStart'] != null) {
+            if (! $default['dateStart'] instanceof DateTime) {
+                $dateStart = new DateTime($default['dateStart']);
+                if (! $dateStart) {
+                    throw new Exception('Your filter "dateStart" is bad formatted.');
+                } else {
+                    $default['dateStart'] = $dateStart;
+                }
+            }
+        }
+        if ($default['dateEnd'] != null) {
+            if (! $default['dateEnd'] instanceof DateTime) {
+                $dateEnd = new DateTime($default['dateEnd']);
+                if (! $dateEnd) {
+                    throw new Exception('Your filter "dateEnd" is bad formatted.');
+                } else {
+                    $default['dateEnd'] = $dateEnd;
+                }
+            }
+        }
 
         switch ($type) {
             case 'outgoing':

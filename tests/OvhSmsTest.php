@@ -2,8 +2,9 @@
 
 namespace TipyTechnique\LaravelOvhSms\Tests;
 
-use Exception;
 use Mockery;
+use DateTime;
+use Exception;
 use Ovh\Sms\Message;
 use Ovh\Sms\Sms as OvhSms;
 use TipyTechnique\LaravelOvhSms\Contracts\Sms;
@@ -237,20 +238,83 @@ class OvhSmsTest extends TestCase
         $mockClient = $ovhSms->getClient();
         $mockClient->shouldReceive('getIncomingMessages')
             ->with(
-                '2019-01-01',
-                '2019-02-01',
-                'sender',
+                \Mockery::type('DateTime'),
+                \Mockery::type('DateTime'),
                 null,
-                'tag'
+                null,
+                null
             )
             ->andReturn([$sms]);
 
         $args = [
             'dateStart' => '2019-01-01',
-            'dateEnd' => '2019-02-01',
-            'sender' => 'sender',
-            'receiver' => null,
-            'tag' => 'tag'
+            'dateEnd' => '2019-02-01'
+        ];
+        $ovhSms->getMessages('incoming', $args);
+    }
+    
+    public function testGetMessagesWithStringDatesFilters(): void
+    {
+        $ovhSms = $this->app->make(Sms::class);
+        $sms = Mockery::mock(OvhSms::class);
+        $sms->shouldReceive('load');
+        $mockClient = $ovhSms->getClient();
+        $mockClient->shouldReceive('getIncomingMessages')
+            ->with(
+                \Mockery::on(function ($argument) {
+                    if ($argument instanceof DateTime && $argument->format('Y-m-d H:i:s') == '2019-01-01 12:20:22') {
+                        return true;
+                    }
+                    return false;
+                }),
+                \Mockery::on(function ($argument) {
+                    if ($argument instanceof DateTime && $argument->format('Y-m-d') == '2019-02-01') {
+                        return true;
+                    }
+                    return false;
+                }),
+                null,
+                null,
+                null
+            )
+            ->andReturn([$sms]);
+
+        $args = [
+            'dateStart' => '2019-01-01 12:20:22',
+            'dateEnd' => '2019-02-01'
+        ];
+        $ovhSms->getMessages('incoming', $args);
+    }
+
+    public function testGetMessagesWithDateTimeDatesFilters(): void
+    {
+        $ovhSms = $this->app->make(Sms::class);
+        $sms = Mockery::mock(OvhSms::class);
+        $sms->shouldReceive('load');
+        $mockClient = $ovhSms->getClient();
+        $mockClient->shouldReceive('getIncomingMessages')
+            ->with(
+                \Mockery::on(function ($argument) {
+                    if ($argument instanceof DateTime && $argument->format('Y-m-d H:i:s') == '2019-01-01 12:20:22') {
+                        return true;
+                    }
+                    return false;
+                }),
+                \Mockery::on(function ($argument) {
+                    if ($argument instanceof DateTime && $argument->format('Y-m-d') == '2019-02-01') {
+                        return true;
+                    }
+                    return false;
+                }),
+                null,
+                null,
+                null
+            )
+            ->andReturn([$sms]);
+
+        $args = [
+            'dateStart' => new dateTime('2019-01-01 12:20:22'),
+            'dateEnd' => new dateTime('2019-02-01')
         ];
         $ovhSms->getMessages('incoming', $args);
     }
