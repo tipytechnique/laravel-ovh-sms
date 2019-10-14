@@ -2,9 +2,9 @@
 
 namespace TipyTechnique\LaravelOvhSms\Tests;
 
-use Mockery;
 use DateTime;
 use Exception;
+use Mockery;
 use Ovh\Sms\Message;
 use Ovh\Sms\Sms as OvhSms;
 use TipyTechnique\LaravelOvhSms\Contracts\Sms;
@@ -252,7 +252,7 @@ class OvhSmsTest extends TestCase
         ];
         $ovhSms->getMessages('incoming', $args);
     }
-    
+
     public function testGetMessagesWithStringDatesFilters(): void
     {
         $ovhSms = $this->app->make(Sms::class);
@@ -265,12 +265,14 @@ class OvhSmsTest extends TestCase
                     if ($argument instanceof DateTime && $argument->format('Y-m-d H:i:s') == '2019-01-01 12:20:22') {
                         return true;
                     }
+
                     return false;
                 }),
                 \Mockery::on(function ($argument) {
                     if ($argument instanceof DateTime && $argument->format('Y-m-d') == '2019-02-01') {
                         return true;
                     }
+
                     return false;
                 }),
                 null,
@@ -298,12 +300,14 @@ class OvhSmsTest extends TestCase
                     if ($argument instanceof DateTime && $argument->format('Y-m-d H:i:s') == '2019-01-01 12:20:22') {
                         return true;
                     }
+
                     return false;
                 }),
                 \Mockery::on(function ($argument) {
                     if ($argument instanceof DateTime && $argument->format('Y-m-d') == '2019-02-01') {
                         return true;
                     }
+
                     return false;
                 }),
                 null,

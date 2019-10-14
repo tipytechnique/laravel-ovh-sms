@@ -4,8 +4,8 @@ namespace TipyTechnique\LaravelOvhSms;
 
 use DateTime;
 use Exception;
-use Ovh\Sms\SmsApi;
 use Ovh\Sms\Message;
+use Ovh\Sms\SmsApi;
 use TipyTechnique\LaravelOvhSms\Contracts\Sms;
 
 /**
@@ -330,6 +330,17 @@ class OvhSms implements Sms
                 throw new Exception('Provided type '.$type.' not exists.');
                 break;
         }
+    }
+
+    /**
+     * Remove the given number from blacklist
+     *
+     * @param string $number
+     */
+    public function removeBlacklistedNumber(string $number): void
+    {
+        $con = $this->client->getConnection();
+        $con->delete($this->client->getUri().'blacklists/'.$number);
     }
 
     /**

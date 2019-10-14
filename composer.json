@@ -1,8 +1,14 @@
 {
-    "name": "tipytechnique/laravel-ovh-smstest",
+    "name": "tipytechnique/laravel-ovh-sms",
     "description": "Use the OVH SMS API in your Laravel 5.8 application.",
     "license": "MIT",
-    "keywords": ["laravel", "laravel5.8", "ovh", "sms", "api"],
+    "keywords": [
+        "laravel",
+        "laravel5.8",
+        "ovh",
+        "sms",
+        "api"
+    ],
     "authors": [
         {
             "name": "Technique",
@@ -19,7 +25,7 @@
     "require-dev": {
         "orchestra/testbench": "^3.8",
         "symfony/var-dumper": "^4.3"
-      },
+    },
     "autoload": {
         "psr-4": {
             "TipyTechnique\\LaravelOvhSms\\": "src/"
@@ -27,7 +33,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-          "TipyTechnique\\LaravelOvhSms\\Tests\\": "tests/"
+            "TipyTechnique\\LaravelOvhSms\\Tests\\": "tests/"
         }
     },
     "extra": {

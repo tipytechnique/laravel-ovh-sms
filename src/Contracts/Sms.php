@@ -41,4 +41,11 @@ interface Sms
      * @return array
      */
     public function getMessages(string $type): array;
+
+    /**
+     * Remove the given number from blacklist
+     *
+     * @param string $number
+     */
+    public function removeBlacklistedNumber(string $number): void;
 }
