@@ -332,6 +332,19 @@ class OvhSms implements Sms
         }
     }
 
+    /*
+     * Get the blacklisted numbers
+     *
+     * @return array
+     */
+    public function getBlacklistedNumbers(): array
+    {
+        $con = $this->client->getConnection();
+        $data = $con->get($this->client->getUri().'blacklists');
+
+        return $data;
+    }
+
     /**
      * Remove the given number from blacklist
      *
