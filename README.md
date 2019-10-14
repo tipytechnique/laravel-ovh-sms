@@ -122,6 +122,15 @@ $messages = Sms::getMessages(
 );
 ```
 
+#### Handle blacklisted numbers
+``` php
+// get all blacklisted numbers
+$blasklisted = Sms::getBlacklistedNumbers(); // array
+
+// remove a given number from the blacklist
+Sms::removeBlacklistedNumber('+33654632544');
+```
+
 ### Testing
 
 ``` bash
