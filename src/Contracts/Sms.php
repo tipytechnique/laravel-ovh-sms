@@ -42,10 +42,17 @@ interface Sms
      */
     public function getMessages(string $type): array;
 
-    /**
+    /*
      * Get the blacklisted numbers
      *
      * @return array
      */
     public function getBlacklistedNumbers(): array;
+
+    /**
+     * Remove the given number from blacklist
+     *
+     * @param string $number
+     */
+    public function removeBlacklistedNumber(string $number): void;
 }

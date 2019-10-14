@@ -332,7 +332,7 @@ class OvhSms implements Sms
         }
     }
 
-    /**
+    /*
      * Get the blacklisted numbers
      *
      * @return array
@@ -343,6 +343,17 @@ class OvhSms implements Sms
         $data = $con->get($this->client->getUri().'blacklists');
 
         return $data;
+    }
+
+    /**
+     * Remove the given number from blacklist
+     *
+     * @param string $number
+     */
+    public function removeBlacklistedNumber(string $number): void
+    {
+        $con = $this->client->getConnection();
+        $con->delete($this->client->getUri().'blacklists/'.$number);
     }
 
     /**
